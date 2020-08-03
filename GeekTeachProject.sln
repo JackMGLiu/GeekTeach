@@ -9,6 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{CA20C186-2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeekTeach.Data", "Core\GeekTeach.Data\GeekTeach.Data.csproj", "{AB9E9FD3-38FB-450A-AB08-0E5079836036}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeekTeach.Application", "Core\GeekTeach.Application\GeekTeach.Application.csproj", "{60A95342-6136-442A-B7B3-45BE27B476BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,9 +25,14 @@ Global
 		{AB9E9FD3-38FB-450A-AB08-0E5079836036}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB9E9FD3-38FB-450A-AB08-0E5079836036}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB9E9FD3-38FB-450A-AB08-0E5079836036}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60A95342-6136-442A-B7B3-45BE27B476BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60A95342-6136-442A-B7B3-45BE27B476BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60A95342-6136-442A-B7B3-45BE27B476BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60A95342-6136-442A-B7B3-45BE27B476BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D50D8B91-9366-4851-ACB8-AB550CF54413} = {182F9FE5-AEA2-4FA4-971D-B898AAF907B1}
 		{AB9E9FD3-38FB-450A-AB08-0E5079836036} = {CA20C186-2B36-4680-9704-A90DEC21CE76}
+		{60A95342-6136-442A-B7B3-45BE27B476BE} = {CA20C186-2B36-4680-9704-A90DEC21CE76}
 	EndGlobalSection
 EndGlobal
