@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Dapper;
 using Geek.Framework.Entity;
 using GeekTeach.Data.Db;
 
@@ -27,8 +28,9 @@ namespace GeekTeach.Web.Models
 
         public Task<IEnumerable<Demo>> DemoList()
         {
-            var sql = SqlBuilder.Select("Demo", null);
-            return Db.QueryAsync<Demo>(sql);
+            var param = new { Age = 22 };
+            //var sql = SqlBuilder.Select("Demo", param);
+            return this.QueryAsync(param);
         }
     }
 

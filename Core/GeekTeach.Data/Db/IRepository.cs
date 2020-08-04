@@ -25,20 +25,96 @@ namespace GeekTeach.Data.Db
         /// </summary>
         string TableName { get; }
 
+        /// <summary>
+        /// 开启事务
+        /// </summary>
+        /// <returns></returns>
         IDbTransaction BeginTransaction();
 
+        /// <summary>
+        /// 开启事务
+        /// </summary>
+        /// <param name="il">事务隔离级别</param>
+        /// <returns></returns>
         IDbTransaction BeginTransaction(IsolationLevel il);
 
+        /// <summary>
+        /// 查询集合
+        /// </summary>
+        /// <param name="clause">条件参数</param>
+        /// <returns></returns>
         Task<IEnumerable<TEntity>> QueryAsync(object clause);
 
+        /// <summary>
+        /// 查询实体
+        /// </summary>
+        /// <param name="clause">条件参数</param>
+        /// <returns></returns>
         Task<TEntity> FindAsync(object clause);
 
+        /// <summary>
+        /// 查询实体
+        /// </summary>
+        /// <param name="key">主键</param>
+        /// <returns></returns>
         Task<TEntity> FindAsync(TKey key);
-    }
 
+        /// <summary>
+        /// 插入实体
+        /// </summary>
+        /// <param name="entity">实体对象</param>
+        /// <param name="userId">操作人Id</param>
+        /// <returns></returns>
+        Task InsertAsync(TEntity entity, TKey userId = default);
+
+        /// <summary>
+        /// 批量插入实体
+        /// </summary>
+        /// <param name="entities">实体对象集合</param>
+        /// <param name="userId">操作人Id</param>
+        /// <returns></returns>
+        Task InsertAsync(IEnumerable<TEntity> entities, TKey userId = default);
+
+        /// <summary>
+        /// 更新实体
+        /// </summary>
+        /// <param name="update">更新参数</param>
+        /// <param name="clause">条件参数</param>
+        /// <returns></returns>
+        Task<int> UpdateAsync(object update, object clause);
+
+        /// <summary>
+        /// 更新实体
+        /// </summary>
+        /// <param name="entity">实体对象</param>
+        /// <param name="userId">操作人Id</param>
+        /// <returns></returns>
+        Task<int> UpdateAsync(TEntity entity, TKey userId = default);
+
+        /// <summary>
+        /// 更新实体
+        /// </summary>
+        /// <param name="entities">实体对象集合</param>
+        /// <param name="userId">操作人Id</param>
+        /// <returns></returns>
+        Task<int> UpdateAsync(IEnumerable<TEntity> entities, TKey userId = default);
+
+        /// <summary>
+        /// 删除实体信息
+        /// </summary>
+        /// <param name="clause">条件参数</param>
+        /// <returns></returns>
+        Task<int> DeleteAsync(object clause);
+
+        /// <summary>
+        /// 删除实体信息
+        /// </summary>
+        /// <param name="id">主键</param>
+        /// <returns></returns>
+        Task<int> DeleteAsync(TKey id);
+    }
 
     public interface IRepository<TEntity> : IRepository<TEntity, long>
        where TEntity : IEntity<long>
     { }
-
 }

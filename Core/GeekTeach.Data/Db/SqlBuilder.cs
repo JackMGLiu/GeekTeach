@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Dapper;
 using Geek.Framework.Extensions;
+using Geek.Framework.Utilities;
+using Org.BouncyCastle.Bcpg.OpenPgp;
 
 namespace GeekTeach.Data.Db
 {
@@ -56,6 +58,32 @@ namespace GeekTeach.Data.Db
             return sql;
         }
 
+        public static string Insert(string tableName, object columns)
+        {
+            var colNames = GetParamNames(columns);
+            var sql = $"INSERT INTO {tableName}({string.Join(", ", colNames)}) VALUES(@{string.Join(", @", colNames)})";
+            return sql;
+        }
+
+        public static string Update(string tableName, object update, object clause)
+        {
+            var updateCols = GetParamNames(update);
+            var clauseCols = GetParamNames(clause);
+            var sql = $"UPDATE {tableName} SET {string.Join(", ", updateCols.Select(x => x + "=@" + x))} ";
+            if (clauseCols != null && clauseCols.Count() > 0)
+                sql += Where(clause);
+            return sql;
+        }
+
+        public static string Delete(string tableName, object clause)
+        {
+            var clauseCols = GetParamNames(clause);
+            var sql = $"DELETE FROM {tableName} ";
+            if (clauseCols != null && clauseCols.Count() > 0)
+                sql += Where(clause);
+            return sql;
+        }
+
         public static string[] GetParamNames(object param)
         {
             if (param == null)
@@ -88,6 +116,25 @@ namespace GeekTeach.Data.Db
                 .GetProperties()
                 .Where(x => x.PropertyType.IsSimpleType() || x.PropertyType.GetAnyElementType().IsSimpleType())
                 .Select(x => x.Name).ToArray();
+        }
+
+        /// <summary>
+        /// Merge parameters.
+        /// </summary>
+        /// <param name="firstParam">The first parameter to merge.</param>
+        /// <param name="otherParams">The other prameters to merge.</param>
+        /// <returns>Merged parameters.</returns>
+        public static DynamicParameters MergeParams(object firstParam, params object[] otherParams)
+        {
+            Guard.NotNull(firstParam, nameof(firstParam));
+
+            var parameters = new DynamicParameters();
+            parameters.AddDynamicParams(firstParam);
+            foreach (var param in otherParams)
+            {
+                parameters.AddDynamicParams(param);
+            }
+            return parameters;
         }
     }
 }
