@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 using Geek.Framework.Entity;
@@ -102,6 +103,42 @@ namespace GeekTeach.Data.Db
         public virtual Task<int> DeleteAsync(TKey id)
         {
             return DeleteAsync(new { Id = id });
+        }
+
+        public virtual async Task<PagedResult<TEntity>> GetPageList(PageInfo pageInfo, IDbTransaction transaction = null, int? commandTimeout = null)
+        {
+            if (pageInfo.page < 1)
+            {
+                pageInfo.page = 1;
+            }
+
+            if (pageInfo.size < 1)
+            {
+                pageInfo.size = 15;
+            }
+            //var startRow = (pageIndex - 1) * pageSize;
+            //MySql分页
+            //sql = $"SELECT * FROM ({sql}) tt1  LIMIT {startRow},{pageSize};  SELECT COUNT(1) FROM ({sql}) tt2;";
+
+            var skipSize = pageInfo.page == 1 ? 0 : pageInfo.size * pageInfo.page;
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append($" select count(0) from {pageInfo.tableName} where {(string.IsNullOrEmpty(pageInfo.where) ? " 1=1 " : pageInfo.where) } ;");
+            strSql.Append($" select {(string.IsNullOrEmpty(pageInfo.field) ? " * " : pageInfo.field)} from  {pageInfo.tableName} where{(string.IsNullOrEmpty(pageInfo.where) ? " 1=1 " : pageInfo.where) }  ");
+            strSql.Append($" order by {pageInfo.orderFiled}  {((string.IsNullOrEmpty(pageInfo.order) ? " desc" : pageInfo.order))} ");
+            strSql.Append($" limit {skipSize},{pageInfo.size} ;");
+
+            PagedResult<TEntity> pagingResult = new PagedResult<TEntity>();
+            pagingResult.Page = pageInfo.page;
+            pagingResult.Size = pageInfo.size;
+            using (var result = await Db.Connection.QueryMultipleAsync(strSql.ToString(), param: pageInfo.paramsObj, transaction, commandTimeout))
+            {
+                // var list = result.Read<TEntity>();
+                var totalCount = await result.ReadFirstAsync<long>();
+                var list = await result.ReadAsync<TEntity>();
+                pagingResult.Items = list;
+                pagingResult.Total = totalCount;
+            }
+            return pagingResult;
         }
     }
 

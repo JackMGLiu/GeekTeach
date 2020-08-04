@@ -28,9 +28,9 @@ namespace GeekTeach.Web.Models
 
         public Task<IEnumerable<Demo>> DemoList()
         {
-            var param = new { Age = 22 };
+            //var param = new { Age = 22 };
             //var sql = SqlBuilder.Select("Demo", param);
-            return this.QueryAsync(param);
+            return this.QueryAsync(null);
         }
     }
 
@@ -40,6 +40,10 @@ namespace GeekTeach.Web.Models
     public interface IDemoServive
     {
         Task<IEnumerable<Demo>> DemoList();
+
+        Task AddDemo();
+
+        Task<PagedResult<Demo>> DemoPageList(PageInfo page);
     }
 
     public class DemoServive : IDemoServive
@@ -51,9 +55,29 @@ namespace GeekTeach.Web.Models
             this._repository = repository;
         }
 
+        public Task AddDemo()
+        {
+            using (var tran = _repository.BeginTransaction())
+            {
+                _repository.InsertAsync(new Demo
+                {
+                    UserName = "李四",
+                    Age = 26
+                });
+
+                tran.Commit();
+            }
+            return Task.CompletedTask;
+        }
+
         public Task<IEnumerable<Demo>> DemoList()
         {
             return _repository.DemoList();
+        }
+
+        public Task<PagedResult<Demo>> DemoPageList(PageInfo page)
+        {
+            return _repository.GetPageList(page);
         }
     }
 }

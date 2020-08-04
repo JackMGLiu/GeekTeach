@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GeekTeach.Data.Db;
 using GeekTeach.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,11 +21,27 @@ namespace GeekTeach.Web.Controllers
         }
 
         // GET: api/values
+        //[HttpGet]
+        //public async Task<IEnumerable<Demo>> Get()
+        //{
+        //    await demoServive.AddDemo();
+        //    return await demoServive.DemoList();
+        //    //return new string[] { "value1", "value2" };
+        //}
+
         [HttpGet]
-        public async Task<IEnumerable<Demo>> Get()
+        public async Task<IActionResult> GetPage()
         {
-            return await demoServive.DemoList();
-            //return new string[] { "value1", "value2" };
+            var page = new PageInfo
+            {
+                tableName = "Demo",
+                page = 1,
+                size = 3,
+                orderFiled = "Id",
+                order = "desc"
+            };
+            var res = await demoServive.DemoPageList(page);
+            return Ok(res.Items);
         }
 
         // GET api/values/5

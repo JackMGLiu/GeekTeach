@@ -112,6 +112,18 @@ namespace GeekTeach.Data.Db
         /// <param name="id">主键</param>
         /// <returns></returns>
         Task<int> DeleteAsync(TKey id);
+
+        /// <summary>
+        /// 分页方法
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <param name="pageIndex">当前页码</param>
+        /// <param name="pageSize">每页显示条数</param>
+        /// <param name="param">参数</param>
+        /// <param name="transaction"></param>
+        /// <param name="commandTimeout"></param>
+        /// <returns></returns>
+        Task<PagedResult<TEntity>> GetPageList(PageInfo pageInfo, IDbTransaction transaction = null, int? commandTimeout = null);
     }
 
     public interface IRepository<TEntity> : IRepository<TEntity, long>
