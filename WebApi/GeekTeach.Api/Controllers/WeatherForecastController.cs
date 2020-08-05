@@ -34,6 +34,7 @@ namespace GeekTeach.Api.Controllers
             LoggerHelper.Default.Fatal("默认logger");
             new LoggerHelper("Diy").Error("自定义logger");
             var rng = new Random();
+            LoggerHelper.Default.Trace("默认logger");
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
