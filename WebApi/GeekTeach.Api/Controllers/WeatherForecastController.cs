@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Geek.Framework.Log;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -30,6 +31,8 @@ namespace GeekTeach.Api.Controllers
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
+            LoggerHelper.Default.Fatal("默认logger");
+            new LoggerHelper("Diy").Error("自定义logger");
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
