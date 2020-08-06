@@ -18,6 +18,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using MySql.Data.MySqlClient;
+using Newtonsoft.Json.Serialization;
 
 namespace GeekTeach.Api
 {
@@ -47,7 +48,12 @@ namespace GeekTeach.Api
                 // 添加控制器层注释，true表示显示控制器注释
                 c.IncludeXmlComments(xmlPath, true);
             });
-            services.AddControllers();
+
+            services.AddControllers().AddNewtonsoftJson(options =>
+                                {
+                                    options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+                                    options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
+                                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

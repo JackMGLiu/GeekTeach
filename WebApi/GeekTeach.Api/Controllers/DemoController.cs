@@ -29,7 +29,11 @@ namespace GeekTeach.Api.Controllers
         //    //return new string[] { "value1", "value2" };
         //}
 
-        [HttpGet]
+        /// <summary>
+        /// 分页测试
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("page")]
         public async Task<IActionResult> GetPage()
         {
             var page = new PageInfo
@@ -42,6 +46,18 @@ namespace GeekTeach.Api.Controllers
             };
             var res = await demoService.DemoPageList(page);
             return Ok(res.Items);
+        }
+
+        /// <summary>
+        /// 查询实体
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        [HttpGet("model")]
+        public async Task<IActionResult> GetModel(long key)
+        {
+            var res = await demoService.GetModel(key);
+            return Ok(res);
         }
     }
 }

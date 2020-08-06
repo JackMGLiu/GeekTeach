@@ -13,5 +13,7 @@ namespace GeekTeach.Application.Services
         Task AddDemo();
 
         Task<PagedResult<Demo>> DemoPageList(PageInfo page);
+
+        Task<Demo> GetModel(object key);
     }
 }

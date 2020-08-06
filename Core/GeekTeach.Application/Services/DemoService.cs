@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Geek.Framework.Db;
 using GeekTeach.Domain.IRepositories;
 using GeekTeach.Domain;
+using Dapper.Contrib.Extensions;
 
 namespace GeekTeach.Application.Services
 {
@@ -39,6 +40,12 @@ namespace GeekTeach.Application.Services
         public Task<PagedResult<Demo>> DemoPageList(PageInfo page)
         {
             return _repository.GetPageList(page);
+        }
+
+        public Task<Demo> GetModel(object key)
+        {
+            var data = _repository.Db.Connection.GetAsync<Demo>(key);
+            return data;
         }
     }
 }
