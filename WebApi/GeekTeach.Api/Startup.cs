@@ -4,7 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Autofac;
+using Geek.Framework;
+using Geek.Framework.Db;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection.Repositories;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using MySql.Data.MySqlClient;
 
 namespace GeekTeach.Api
 {
@@ -28,6 +33,9 @@ namespace GeekTeach.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddGeek(opt => opt.UseIdGen(0))
+                .AddDb<MySqlConnection>(Configuration.GetConnectionString("DefaultConnection"));
+
             //添加Swagger
             services.AddSwaggerGen(c =>
             {
@@ -67,6 +75,18 @@ namespace GeekTeach.Api
             {
                 endpoints.MapControllers();
             });
+        }
+
+        /// <summary>
+        /// DI
+        /// </summary>
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            //builder.RegisterGeneric(typeof(Repository<>)).As(typeof(IRepository<>)).AsImplementedInterfaces().InstancePerLifetimeScope();
+            var repAssemblys = Assembly.Load("GeekTeach.Data");
+            var appAssemblys = Assembly.Load("GeekTeach.Application");
+            builder.RegisterAssemblyTypes(repAssemblys).Where(t => t.Name.EndsWith("Repository")).AsImplementedInterfaces().InstancePerLifetimeScope();
+            builder.RegisterAssemblyTypes(appAssemblys).Where(t => t.Name.EndsWith("Service")).AsImplementedInterfaces().InstancePerLifetimeScope();
         }
     }
 }

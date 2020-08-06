@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 using Geek.Framework;
-using GeekTeach.Data.Db;
+using Geek.Framework.Db;
 using Microsoft.Extensions.Logging;
 
 namespace Microsoft.Extensions.DependencyInjection
