@@ -51,7 +51,7 @@ namespace GeekTeach.Api.Controllers
         /// <summary>
         /// 查询实体
         /// </summary>
-        /// <param name="key"></param>
+        /// <param name="key">主键标识</param>
         /// <returns></returns>
         [HttpGet("model")]
         public async Task<IActionResult> GetModel(long key)
