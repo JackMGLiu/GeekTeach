@@ -31,10 +31,10 @@ namespace GeekTeach.Api.Controllers
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
-            LoggerHelper.Default.Fatal("默认logger");
-            new LoggerHelper("Diy").Error("自定义logger");
+            //LoggerHelper.Default.Fatal("默认logger");
+            //new LoggerHelper("Diy").Error("自定义logger");
             var rng = new Random();
-            LoggerHelper.Default.Trace("默认logger");
+            LoggerHelper.WriteFileLog(NLog.LogLevel.Debug, LogType.Api, "接口调用成功");
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),

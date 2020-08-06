@@ -23,6 +23,11 @@ namespace GeekTeach.Api
                 {
                     webBuilder.UseStartup<Startup>();
                 })
+            .ConfigureLogging(log =>
+            {
+                log.ClearProviders();
+                log.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+            })
             .UseNLog();
     }
 }
