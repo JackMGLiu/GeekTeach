@@ -1,4 +1,6 @@
-﻿namespace Geek.Framework.Entity
+﻿using Dapper.Contrib.Extensions;
+
+namespace Geek.Framework.Entity
 {
     /// <summary>
     /// 实体基类
@@ -9,6 +11,7 @@
         /// <summary>
         /// 主键
         /// </summary>
+        [Key]
         TKey Id { get; set; }
     }
 

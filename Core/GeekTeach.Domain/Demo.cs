@@ -7,11 +7,8 @@ namespace GeekTeach.Domain
     /// 测试实体类
     /// </summary>
     [Table("Demo")]
-    public class Demo : IEntity
+    public class Demo : EntityBase<long>
     {
-        [Key]
-        public long Id { get; set; }
-
         /// <summary>
         /// 用户名
         /// </summary>
@@ -22,5 +19,12 @@ namespace GeekTeach.Domain
         /// </summary>
         public int Age { get; set; }
     }
+
+
+    public class User : AuditEntity
+    {
+
+    }
+
 
 }
