@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Autofac;
 using Geek.Framework;
 using Geek.Framework.Db;
+using Geek.Framework.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection.Repositories;
 using Microsoft.AspNetCore.Hosting;
@@ -59,10 +60,12 @@ namespace GeekTeach.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            app.UseErrorMiddleware();
+
+            //if (env.IsDevelopment())
+            //{
+            //    app.UseDeveloperExceptionPage();
+            //}
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
