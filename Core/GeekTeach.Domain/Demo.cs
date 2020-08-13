@@ -1,4 +1,5 @@
-﻿using Dapper.Contrib.Extensions;
+﻿using System;
+using Dapper.Contrib.Extensions;
 using Geek.Framework.Entity;
 
 namespace GeekTeach.Domain
@@ -21,8 +22,13 @@ namespace GeekTeach.Domain
     }
 
 
-    public class User : AuditEntity
+    public class User : IAuditEntity, ISoftDeleteEntity
     {
+        public DateTime CreateTime { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public DateTime ModiflyTime { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public long Id { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public int IsDelete { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
 
     }
 

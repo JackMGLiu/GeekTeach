@@ -34,7 +34,7 @@ namespace GeekTeach.Api.Controllers
             //LoggerHelper.Default.Fatal("默认logger");
             //new LoggerHelper("Diy").Error("自定义logger");
             var rng = new Random();
-            throw new Exception("这是个自定义错误！！！");
+            //throw new Exception("这是个自定义错误！！！");
             //LoggerHelper.WriteFileLog(NLog.LogLevel.Debug, LogType.Api, "接口调用成功");
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {

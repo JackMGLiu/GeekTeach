@@ -37,6 +37,11 @@ namespace GeekTeach.Application.Services
             return _repository.DemoList();
         }
 
+        public Task<IEnumerable<Demo>> DemoListByWhere(int obj)
+        {
+            return _repository.DemoListByWhere(obj);
+        }
+
         public Task<PagedResult<Demo>> DemoPageList(PageInfo page)
         {
             return _repository.GetPageList(page);

@@ -35,7 +35,10 @@ namespace GeekTeach.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddGeek(opt => opt.UseIdGen(0))
+            //services.AddGeek(opt => opt.UseIdGen(1))
+            //    .AddDb<MySqlConnection>(Configuration.GetConnectionString("DefaultConnection"));
+
+            services.AddGeek()
                 .AddDb<MySqlConnection>(Configuration.GetConnectionString("DefaultConnection"));
 
             //添加Swagger

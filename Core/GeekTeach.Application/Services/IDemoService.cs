@@ -15,5 +15,7 @@ namespace GeekTeach.Application.Services
         Task<PagedResult<Demo>> DemoPageList(PageInfo page);
 
         Task<Demo> GetModel(object key);
+
+        Task<IEnumerable<Demo>> DemoListByWhere(int obj);
     }
 }

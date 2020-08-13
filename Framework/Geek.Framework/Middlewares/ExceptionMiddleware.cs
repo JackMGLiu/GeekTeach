@@ -9,6 +9,9 @@ using Newtonsoft.Json;
 
 namespace Geek.Framework.Middlewares
 {
+    /// <summary>
+    /// 全局错误中间件
+    /// </summary>
     public class ExceptionMiddleware
     {
         private readonly ILogger logger;

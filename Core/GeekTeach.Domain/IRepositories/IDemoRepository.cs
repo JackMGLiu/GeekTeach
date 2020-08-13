@@ -11,5 +11,7 @@ namespace GeekTeach.Domain.IRepositories
     public interface IDemoRepository : IRepository<Demo>
     {
         Task<IEnumerable<Demo>> DemoList();
+
+        Task<IEnumerable<Demo>> DemoListByWhere(int obj);
     }
 }

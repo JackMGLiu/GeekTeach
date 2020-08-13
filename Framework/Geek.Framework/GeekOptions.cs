@@ -3,6 +3,9 @@ using Geek.Framework.Utilities;
 
 namespace Geek.Framework
 {
+    /// <summary>
+    /// 系统配置项
+    /// </summary>
     public class GeekOptions
     {
         /// <summary>

@@ -59,5 +59,12 @@ namespace GeekTeach.Api.Controllers
             var res = await demoService.GetModel(key);
             return Ok(res);
         }
+
+        [HttpGet("list")]
+        public async Task<IActionResult> GetListBy(int obj)
+        {
+            var res = await demoService.DemoListByWhere(obj);
+            return Ok(res);
+        }
     }
 }

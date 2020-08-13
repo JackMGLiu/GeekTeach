@@ -2,6 +2,9 @@
 
 namespace Geek.Framework
 {
+    /// <summary>
+    /// 服务容器创建器
+    /// </summary>
     public class GeekBuilder
     {
         public IServiceCollection Services { get; private set; }
