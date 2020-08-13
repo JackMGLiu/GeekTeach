@@ -6,8 +6,8 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Autofac;
 using Geek.Framework;
-using Geek.Framework.Db;
 using Geek.Framework.Middlewares;
+using GeekTeach.Domain;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection.Repositories;
 using Microsoft.AspNetCore.Hosting;
@@ -58,6 +58,9 @@ namespace GeekTeach.Api
                                     options.SerializerSettings.ContractResolver = new DefaultContractResolver();
                                     options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
                                 });
+
+            //调用前面的静态方法，将映射关系注册
+            ColumnMapper.SetMapper();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

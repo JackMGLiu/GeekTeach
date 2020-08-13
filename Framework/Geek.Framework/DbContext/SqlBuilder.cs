@@ -11,7 +11,7 @@ namespace Geek.Framework.Db
     /// <summary>
     /// Sql生成器
     /// </summary>
-    public static class SqlBuilder
+    public static class Sql
     {
         public static string And(object clause)
         {
@@ -40,6 +40,11 @@ namespace Geek.Framework.Db
             }));
 
             return res;
+        }
+
+        public static string MySqlPage(int page = 1, int size = 20)
+        {
+            return $"LIMIT {size * (page - 1)},{size}";
         }
 
         public static string Where(object clause)

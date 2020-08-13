@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Geek.Framework.Db;
 using GeekTeach.Application.Services;
+using GeekTeach.Application.Services.System;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -15,10 +16,12 @@ namespace GeekTeach.Api.Controllers
     public class DemoController : ControllerBase
     {
         private readonly IDemoService demoService;
+        private readonly ISysUserService sysUserService;
 
-        public DemoController(IDemoService demoService)
+        public DemoController(IDemoService demoService, ISysUserService sysUserService)
         {
             this.demoService = demoService;
+            this.sysUserService = sysUserService;
         }
 
         //[HttpGet]
@@ -64,6 +67,13 @@ namespace GeekTeach.Api.Controllers
         public async Task<IActionResult> GetListBy(int obj)
         {
             var res = await demoService.DemoListByWhere(obj);
+            return Ok(res);
+        }
+
+        [HttpGet("users")]
+        public async Task<IActionResult> GetUserList()
+        {
+            var res = await sysUserService.GetUsers();
             return Ok(res);
         }
     }

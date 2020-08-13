@@ -41,7 +41,7 @@ namespace Geek.Framework.Db
         {
             using (Db.Connection)
             {
-                var sql = SqlBuilder.Select(TableName, clause);
+                var sql = Sql.Select(TableName, clause);
                 return Db.Connection.QuerySingleOrDefaultAsync<TEntity>(sql, clause);
             }
         }
@@ -55,7 +55,7 @@ namespace Geek.Framework.Db
         {
             using (Db.Connection)
             {
-                var sql = SqlBuilder.Select(TableName, clause);
+                var sql = Sql.Select(TableName, clause);
                 return Db.Connection.QueryAsync<TEntity>(sql, clause);
             }
         }
@@ -65,7 +65,7 @@ namespace Geek.Framework.Db
             using (Db.Connection)
             {
                 //FillCreateAudit(entity, operatorId);
-                var sql = SqlBuilder.Insert(TableName, entity);
+                var sql = Sql.Insert(TableName, entity);
                 return Db.Connection.ExecuteAsync(sql, entity);
             }
         }
@@ -78,7 +78,7 @@ namespace Geek.Framework.Db
                     return Task.CompletedTask;
                 //foreach (var ent in entities)
                 //    FillCreateAudit(ent, operatorId);
-                var sql = SqlBuilder.Insert(TableName, typeof(TEntity));
+                var sql = Sql.Insert(TableName, typeof(TEntity));
                 return Db.Connection.ExecuteAsync(sql, entities);
             }
         }
@@ -87,8 +87,8 @@ namespace Geek.Framework.Db
         {
             using (Db.Connection)
             {
-                var sql = SqlBuilder.Update(TableName, update, clause);
-                return Db.Connection.ExecuteAsync(sql, SqlBuilder.MergeParams(update, clause));
+                var sql = Sql.Update(TableName, update, clause);
+                return Db.Connection.ExecuteAsync(sql, Sql.MergeParams(update, clause));
             }
         }
 
@@ -97,8 +97,8 @@ namespace Geek.Framework.Db
             using (Db.Connection)
             {
                 //FillUpdateAudit(entity, operatorId);
-                var updateColumns = SqlBuilder.GetParamNames(entity).Where(x => x != "Id");
-                var sql = SqlBuilder.Update(TableName, updateColumns, new { entity.Id });
+                var updateColumns = Sql.GetParamNames(entity).Where(x => x != "Id");
+                var sql = Sql.Update(TableName, updateColumns, new { entity.Id });
                 return Db.Connection.ExecuteAsync(sql, entity);
             }
         }
@@ -109,8 +109,8 @@ namespace Geek.Framework.Db
             {
                 //foreach (var ent in entities)
                 //    FillUpdateAudit(ent, operatorId);
-                var updateColumns = SqlBuilder.GetParamNames(typeof(TEntity)).Where(x => x != "Id");
-                var sql = SqlBuilder.Update(TableName, updateColumns, new { Id = default(long) });
+                var updateColumns = Sql.GetParamNames(typeof(TEntity)).Where(x => x != "Id");
+                var sql = Sql.Update(TableName, updateColumns, new { Id = default(long) });
                 return Db.Connection.ExecuteAsync(sql, entities);
             }
         }
@@ -119,7 +119,7 @@ namespace Geek.Framework.Db
         {
             using (Db.Connection)
             {
-                var sql = SqlBuilder.Delete(TableName, clause);
+                var sql = Sql.Delete(TableName, clause);
                 return Db.Connection.ExecuteAsync(sql, clause);
             }
         }
