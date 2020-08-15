@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Geek.Framework.Db;
+using Geek.Framework.Jwt;
 using GeekTeach.Application.Services;
 using GeekTeach.Application.Services.System;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace GeekTeach.Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class DemoController : ControllerBase
@@ -31,6 +34,20 @@ namespace GeekTeach.Api.Controllers
         //    return await demoServive.DemoList();
         //    //return new string[] { "value1", "value2" };
         //}
+        [HttpGet("token")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Token()
+        {
+            JwtSessionModel model = new JwtSessionModel
+            {
+                UserId = "99999",
+                UserName = "SystemTest",
+                RoleId = "88888",
+                RoleName = "测试管理"
+            };
+            var token = TokenHelper.GenerateToken(model);
+            return Ok(token);
+        }
 
         /// <summary>
         /// 分页测试
