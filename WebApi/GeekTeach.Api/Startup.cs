@@ -6,8 +6,10 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Autofac;
 using Geek.Framework;
+using Geek.Framework.Jwt;
 using Geek.Framework.Middlewares;
 using GeekTeach.Domain;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection.Repositories;
 using Microsoft.AspNetCore.Hosting;
@@ -17,6 +19,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json.Serialization;
@@ -59,6 +62,15 @@ namespace GeekTeach.Api
                                     options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
                                 });
 
+            services.AddOptions();
+
+            #region JWT
+
+            //services.Configure<JwtOptions>(Configuration.GetSection(nameof(JwtOptions)));
+            services.AddJwtBearer(Configuration);
+
+            #endregion
+
             //调用前面的静态方法，将映射关系注册
             ColumnMapper.SetMapper();
         }
@@ -83,6 +95,8 @@ namespace GeekTeach.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

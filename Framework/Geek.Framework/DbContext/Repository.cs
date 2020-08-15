@@ -149,7 +149,8 @@ namespace Geek.Framework.Db
             strSql.Append($" select count(0) from {pageInfo.tableName} where {(string.IsNullOrEmpty(pageInfo.where) ? " 1=1 " : pageInfo.where) } ;");
             strSql.Append($" select {(string.IsNullOrEmpty(pageInfo.field) ? " * " : pageInfo.field)} from  {pageInfo.tableName} where{(string.IsNullOrEmpty(pageInfo.where) ? " 1=1 " : pageInfo.where) }  ");
             strSql.Append($" order by {pageInfo.orderFiled}  {((string.IsNullOrEmpty(pageInfo.order) ? " desc" : pageInfo.order))} ");
-            strSql.Append($" limit {skipSize},{pageInfo.size} ;");
+            strSql.Append(Sql.MySqlPage(pageInfo.page, pageInfo.size));
+            //strSql.Append($" limit {skipSize},{pageInfo.size} ;");
 
             PagedResult<TEntity> pagingResult = new PagedResult<TEntity>();
             pagingResult.Page = pageInfo.page;
