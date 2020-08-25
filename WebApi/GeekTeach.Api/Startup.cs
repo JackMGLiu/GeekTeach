@@ -78,6 +78,19 @@ namespace GeekTeach.Api
                 #endregion
             });
 
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("any", builder =>
+                {
+                    builder.AllowAnyOrigin()//允许所有地址访问
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+                    //.WithOrigins("")//指定接受访问的地址
+                    //.AllowCredentials()//指定处理cookie 使用AllowAnyOrigin时不可以使用这个
+                });
+            });
+
             services.AddControllers().AddNewtonsoftJson(options =>
                                 {
                                     options.SerializerSettings.ContractResolver = new DefaultContractResolver();
@@ -117,6 +130,8 @@ namespace GeekTeach.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("any");
 
             app.UseAuthentication();
 

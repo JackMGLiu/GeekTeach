@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
@@ -29,6 +30,17 @@ namespace Geek.Framework.Jwt
                                };
                                options.Events = new JwtBearerEvents
                                {
+                                   OnMessageReceived = context =>
+                                   {
+                                       var authorization = context.Request.Headers["Token"];
+                                       var token = authorization.FirstOrDefault();
+                                       if (token != null)
+                                       {
+                                           context.Request.Headers.Remove("Authorization");
+                                           context.Request.Headers.Add("Authorization", $"Bearer {token}");
+                                       }
+                                       return Task.CompletedTask;
+                                   },
                                    OnAuthenticationFailed = context =>
                                    {
                                        if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
